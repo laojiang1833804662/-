@@ -2,13 +2,16 @@
     <div class="cpp">
         <el-container>
      <el-aside width="150px">
-        
 
-<el-col :span="12">
-<h3>千峰</h3>
+        
+<el-row class="tac">
+  <el-col :span="12">
+    <!-- <h5>默认颜色</h5> -->
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
+      :router="true"
+      
       @open="handleOpen"
       @close="handleClose">
       <el-submenu index="1">
@@ -16,39 +19,53 @@
           <i class="el-icon-location"></i>
           <span>导航一</span>
         </template>
-
         <el-menu-item-group>
-          <!-- <template slot="title">分组一</template> -->
+          <template slot="title">分组一</template>
+          <!-- index表示跳转到某个路由 -->
           <el-menu-item index="1-1">选项1</el-menu-item>
           <el-menu-item index="1-2">选项2</el-menu-item>
         </el-menu-item-group>
-        
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        
+
+
+
+         <el-submenu index="1-3">
+          <template slot="title">选项3</template>
+          <el-menu-item index="1-3-1">选项1</el-menu-item>
+          <el-menu-item index="1-3-1">选项1</el-menu-item>
+        </el-submenu>
+       
         <el-submenu index="1-4">
           <template slot="title">选项4</template>
           <el-menu-item index="1-4-1">选项1</el-menu-item>
+          <el-menu-item index="1-4-1">选项1</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-menu-item index="2">
+      <el-menu-item index="/student">学员信息</el-menu-item>
+      
+      <!-- <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
+      </el-menu-item> -->
+      <!-- <el-menu-item index="3" disabled>
         <i class="el-icon-document"></i>
         <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
+      </el-menu-item> -->
+      <!-- <el-menu-item index="4">
         <i class="el-icon-setting"></i>
         <span slot="title">导航四</span>
-      </el-menu-item>
+      </el-menu-item> -->
     </el-menu>
   </el-col>
+  
+</el-row>
+
 
 
      </el-aside>
      <el-container>
+       <!-- 头部位置 -->
     <el-header>
+      <span class="iconfont icon-shouqi" style="font-size:20px"></span>
         <span>我的</span>
         <span>千峰</span>
         
@@ -62,7 +79,10 @@
                            <span @click="click" class="quit">退出</span>
         
     </el-header>
-    <el-main>Main</el-main>
+    <!-- 主体位置 -->
+    <el-main>
+      <router-view></router-view>
+    </el-main>
    </el-container>
    </el-container>
     </div>
@@ -72,6 +92,12 @@
   cursor: pointer;
   color:hotpink;
 }
+#app .el-menu--inline {
+   background: honeydew;
+ }
+ .el-row span{
+   color:#fff;
+ }
   .el-header {
     background-color: #B3C0D1;
     color: #333;
@@ -108,7 +134,7 @@
    color: #fff;
  }
  .el-aside{
-    background:linear-gradient(90deg,#fff,#000)
+     background:linear-gradient(90deg,#1596fb,#002dff);
  }
  .el-avatar{
    align-items:center;

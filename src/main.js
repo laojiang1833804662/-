@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import ".././src/assets/css/login.css"
 import "../src/assets/css/mian.css"
+import "../src/assets/iconfont/iconfont.css"
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -34,6 +35,10 @@ router.beforeEach((to, from, next) => {
   }
 
 })
+
+// import "./Utils/recursionRoutes"
+
+
 new Vue({
   router,
   store,

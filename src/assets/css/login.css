@@ -53,3 +53,6 @@ html,body,#app{
       bottom: 50%; */
       margin: 50px 0;
   }
+  #app .el-menu--inline {
+    background: honeydew;
+  }

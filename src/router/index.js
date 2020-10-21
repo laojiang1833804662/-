@@ -1,6 +1,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+// import { component } from "vue/types/umd";
 // import Home from "../views/Home.vue";
+import allRoutes from "./allRouters"
 
 Vue.use(VueRouter);
 
@@ -10,9 +12,10 @@ const routes = [
     component:()=>import( "../pages/Login/index.vue")
   },
   {
-    path:"/",
-    component:()=>import( "../pages/Home/index.vue")
+    path:"*",
+    component:()=>import( "../pages/pages-404/index.vue")
   },
+  
   // {
   //   path:"*",
   //   component:()=>import( "../components/wuxiao404/index.vue")

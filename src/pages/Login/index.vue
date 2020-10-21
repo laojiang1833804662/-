@@ -1,5 +1,5 @@
 <template>
-    <div class="login-page">
+    <div class="login-page" @keydown.enter="login">
         <div>
              <h1 class="title">千锋管理系统</h1>
         </div>
@@ -10,10 +10,10 @@
     <!-- autocomplete="off"表示表单允许被记录输入的值 -->
   </el-form-item>
   <el-form-item label="密码" prop="checkPass">
-    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+    <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off" ></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="success" round  @click="submitForm('ruleForm')">登录</el-button>
+    <el-button type="success" round  @click="submitForm('ruleForm')" v-focus @keydown.enter="login">登录</el-button>
     <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
   </el-form-item>
 </el-form>
@@ -107,6 +107,17 @@ import {mapState,mapMutations} from 'vuex'
 
 
       ...mapMutations(['SET_USERINFO']),
+
+    login(){
+      this.submitForm('ruleForm')
+    }
+    },
+    directives: {
+      focus:{
+        inserted:function(el){
+          el.focus()
+        }
+      }
     }
   }
 </script>
