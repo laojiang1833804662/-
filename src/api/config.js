@@ -1,5 +1,8 @@
 import axios from "axios";
 import router from '../router/index'
+
+
+
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? "/api" : "http://www.chst.vip"
 axios.defaults.withCredentials = true; //允许请求携带认证
 axios.create({
@@ -8,13 +11,13 @@ axios.create({
 
 // 创建请求拦截
 axios.interceptors.request.use(config=>{
-    if(config.url==='/users/login'){
+    if(config.url=='/users/login'){
         //登录和注册是不需要携带taken的
         return config
     }else{
         //有taken才给你放行
         let token=localStorage.getItem('wode')
-        config.headers['authorization']== token;//把token的值赋给每一次请求的请求头
+        config.headers['authorization'] = token;;//把token的值赋给每一次请求的请求头 
         return config
     }
 
@@ -25,10 +28,14 @@ axios.interceptors.request.use(config=>{
 axios.interceptors.response.use(config=>{
 //防止用户自己创建token，接受数据后端判断
 let {data}=config
-    if(data.code=='1004'){
+    if(data.code=='1004' || data.code=='10022' ){
         alert("登录信息失效请重新登录")
         //引入router 
+        localStorage.removeItem("wode")//
           router.push('/login')
+          window.location.reload()
+          //解决路由缓存问题，退出页面时要刷新一下，清除缓存。
+        //   
     }
     return config
 })

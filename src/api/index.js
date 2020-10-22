@@ -8,3 +8,4 @@ export  const login=(username,password)=>axios({
         password
     }
 })
+export const getMenuList=()=>axios.get("/permission/getMenuList")

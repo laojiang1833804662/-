@@ -1,66 +1,18 @@
 <template>
     <div class="cpp">
         <el-container>
-     <el-aside width="150px">
-
-        
-<el-row class="tac">
-  <el-col :span="12">
-    <!-- <h5>默认颜色</h5> -->
-    <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      :router="true"
-      
-      @open="handleOpen"
-      @close="handleClose">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
-        </template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <!-- index表示跳转到某个路由 -->
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-
-
-
-         <el-submenu index="1-3">
-          <template slot="title">选项3</template>
-          <el-menu-item index="1-3-1">选项1</el-menu-item>
-          <el-menu-item index="1-3-1">选项1</el-menu-item>
-        </el-submenu>
-       
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="/student">学员信息</el-menu-item>
-      
-      <!-- <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item> -->
-      <!-- <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item> -->
-      <!-- <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item> -->
-    </el-menu>
-  </el-col>
-  
-</el-row>
-
-
-
+          <!-- 去掉px切换时会自动变换 -->
+     <el-aside width="150">
+       <!-- elmen 不可少 -->
+       <!-- :default-active="$route.path" 加冒号变成动态属性，解决切换路由，侧边栏不动的问题 -->
+       <el-menu
+        :default-active="$route.path"
+        class="el-menu-vertical-demo"
+        :router="true"
+       
+      >
+    <qf-sub-menu :sideMenu="sideMenu"></qf-sub-menu>
+       </el-menu>
      </el-aside>
      <el-container>
        <!-- 头部位置 -->
@@ -81,6 +33,13 @@
     </el-header>
     <!-- 主体位置 -->
     <el-main>
+       <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/Welcome' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item  
+         v-for="crumb in crumbs" :to="{path:crumb.path}" >
+              {{crumb.meta.name}}
+            </el-breadcrumb-item>
+          </el-breadcrumb>
       <router-view></router-view>
     </el-main>
    </el-container>
@@ -152,16 +111,21 @@ export default {
         console.log(key, keyPath);
       },
       click(){
+        //退出登录要清除token和userinfo
+        //然后跳转到登录页
+        //由于路由时动态生成得，所以会缓存，退出时要刷新页面获取新的路由，或者说把缓存清空，
             localStorage.removeItem("wode")
             localStorage.removeItem("userInfo")
             this.$router.push("/login")
+            window.location.reload()
       }
     },
     computed: {
-      ...mapState(['userInfo'])
+      ...mapState(['userInfo','sideMenu','crumbs'])
     },
     mounted () {
-      console.log(this.userInfo);
+      // console.log(this.userInfo);
+      
     }
   }
 </script>

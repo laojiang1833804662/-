@@ -83,15 +83,15 @@ import {mapState,mapMutations} from 'vuex'
             })
             let {pass,checkPass}=this.ruleForm
              login(pass,checkPass)
-             .then(res=>{console.log(res); loading.close()
+             .then(res=>{ loading.close()
              if(res.data.state){
                this.$message.success('登入成功')
                localStorage.setItem('wode',res.data.token)
                localStorage.setItem('userInfo',JSON.stringify(res.data.userInfo))
                //更改vuex中state的数据
                this.SET_USERINFO(res.data.userInfo)
-               this.$router.push("/")
-               console.log(res.data.userInfo);
+               this.$router.push("/Welcome")
+              //  console.log(res.data.userInfo);
              }else{
                this.$message.error('检查一下你的用户名和密码傻逼')
              }
