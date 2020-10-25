@@ -30,6 +30,8 @@ export default new Vuex.Store({
       target.children=[...state.sideMenu]
       //  console.log(dynamicRoutes);
       router.addRoutes(dynamicRoutes)
+    //因为这个数组里面的数据都是对象，都是引用数据类型，所以=是把内存地址赋值
+    //所以当target改变时，原来数组里面的对象也会改变，所以原数组改变了，所以复制对象和数组时要用深拷贝。
     
     },
    SET_CRUMBS(state,payload){
