@@ -56,3 +56,15 @@ html,body,#app{
   #app .el-menu--inline {
     background: honeydew;
   }
+  #app .el-dialog__body .el-form-item  .el-form-item__label{
+    color:#000!important;
+}
+#app  .el-dialog__body .el-form-item__content .el-input__inner{
+    color:#000!important;
+}
+  #app .el-input--suffix .el-input__inner{
+      color: #000;
+  }
+  .el-pagination button{
+      width: 0;
+  } 

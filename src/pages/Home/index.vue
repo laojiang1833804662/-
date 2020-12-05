@@ -9,8 +9,8 @@
         :default-active="$route.path"
         class="el-menu-vertical-demo"
         :router="true"
-       
       >
+      <!-- 引入的侧边栏插件 -->
     <qf-sub-menu :sideMenu="sideMenu"></qf-sub-menu>
        </el-menu>
      </el-aside>
@@ -27,18 +27,19 @@
                            fit="fit"
                            src="http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIzXDib7zrmdYxdEQpYk85B26DZAJS6PUJC7ic4Fydibdz9L2gU3hloPcibuyo0xAFztxqPbgdVWp1zpQ/132"></el-avatar>
                           
-                           <span>欢迎你:{{userInfo.nickname}}</span>
+                           <span @click="$router.push('/Mine')">欢迎你:{{userInfo.nickname}}</span>
                            <span @click="click" class="quit">退出</span>
         
     </el-header>
     <!-- 主体位置 -->
     <el-main>
+      <!-- 面包屑 -->
        <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/Welcome' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item  
-         v-for="crumb in crumbs" :to="{path:crumb.path}" >
+               v-for="crumb in crumbs" :to="{path:crumb.path}" >
               {{crumb.meta.name}}
-            </el-breadcrumb-item>
+            </el-breadcrumb-item> 
           </el-breadcrumb>
       <router-view></router-view>
     </el-main>
@@ -116,6 +117,7 @@ export default {
         //由于路由时动态生成得，所以会缓存，退出时要刷新页面获取新的路由，或者说把缓存清空，
             localStorage.removeItem("wode")
             localStorage.removeItem("userInfo")
+            localStorage.removeItem("permissionbuttons")
             this.$router.push("/login")
             window.location.reload()
       }
@@ -124,8 +126,7 @@ export default {
       ...mapState(['userInfo','sideMenu','crumbs'])
     },
     mounted () {
-      // console.log(this.userInfo);
-      
+
     }
   }
 </script>

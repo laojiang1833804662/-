@@ -15,10 +15,16 @@ import qfsubmenu from 'qf-sub-menu'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-// Vue.config.productionTip = false;
+//引入判断按钮权限的方法
+import has from './Utils/has'
+
+ Vue.prototype.$has = has;
+Vue.prototype.$bus = new Vue();
+
+//目的讲组件注册到全局
 Vue.use(ElementUI);
 Vue.use(qfsubmenu);
-//目的讲组件注册到全局
+
 
 //路由前置钩子，导航守卫
 router.beforeEach((to, from, next) => {
@@ -63,6 +69,24 @@ router.afterEach((to,from)=>{
   store.commit("SET_CRUMBS",crumbslist)
 })
 
+//定义全局自定义指令，判断权限
+// 这个自定义指定，指的是所有被打标的dom元素都会执行，
+Vue.directive('has',{
+  bind(el,binding,VNode){
+    console.log(binding);
+    //el表示要操控的dom元素
+   //定义用户是否有权限的方法
+   //binding含有一些属性
+   
+   let buttons=localStorage.getItem("permissionbuttons")
+   if(!has(buttons,binding.value)){
+    
+    let className = el.className;
+    el.className = className + " " + "is-disabled"
+    el.disabled = true
+   }
+  },
+})
 new Vue({
   router,
   store,

@@ -10,12 +10,14 @@ import router from "../router";
 Vue.use(Vuex);
 //刷新页面回丢失用户信息，所以要从本地取
 let userInfo=localStorage.getItem("userInfo")?JSON.parse(localStorage.getItem("userInfo")):{}
+let permissionbuttons=localStorage.getItem("permissionbuttons")?JSON.parse(localStorage.getItem("permissionbuttons")):{}
 // userInfo=JSON.parse(userInfo)
 export default new Vuex.Store({
   state: {
     userInfo,
     sideMenu:[],//定义用户侧边栏菜单
-    crumbs:[]//设置面包屑
+    crumbs:[],//设置面包屑
+    permissionbuttons,
   },
   mutations: {
     //更改useinfo
@@ -36,6 +38,9 @@ export default new Vuex.Store({
     },
    SET_CRUMBS(state,payload){
       state.crumbs=payload
+   },
+   SET_PERMISSION_BUTTON(state,payload){
+   state.permissionbuttons=payload
    }
   },
   actions: {

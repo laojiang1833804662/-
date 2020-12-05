@@ -1,8 +1,6 @@
 <template>
   <div class="login-page" @keydown.enter="login">
-    <div>
       <h1 class="title">千锋管理系统</h1>
-    </div>
     <el-form
       :model="ruleForm"
       :rules="rules"
@@ -21,8 +19,8 @@
       </el-form-item>
       <el-form-item label="密码" prop="captcha">
         <el-input
-          type="text"
-          v-model="ruleForm.checkPass"
+          type="password"     
+        v-model="ruleForm.checkPass"
           autocomplete="off"
         ></el-input>
       </el-form-item>
@@ -68,7 +66,7 @@
 
 //5.校验不通过,跳转到登入页
 import { login ,getCaptcha,verifyCaptcha } from "../../api/index";
-import { mapState, mapMutations,} from "vuex";
+import { mapState, mapMutations,SET_PERMISSION_BUTTON} from "vuex";
 export default {
   data() {
     //账号校验函数
@@ -92,11 +90,14 @@ export default {
     };
     //  验证码校验函数
     var validatecaptcha = (rule, value, callback) => {
-      if (value === "" || value.length!==5) {
-        callback(new Error("请输入验证码"));
-      } else {
-        callback();
-      }
+
+
+      // if (value === "" || value.length!==5) {
+      //   callback(new Error("请输入验证码"));
+      // } else {
+      //   callback();
+      // }
+     callback();
     };
     return {
       captchasvg:"",//从服务器获取下来的验证码svg解构
@@ -134,14 +135,16 @@ export default {
           //本地校验通过
           // alert('submit!');
           //先判断验证码是否正确
+
              let verifyresult= await verifyCaptcha(this.ruleForm.captcha)
-          console.log(111);
-           if(!verifyresult.data.state){
-              alert("验证码输入错误，请重新输入")
-              return
-            }
+//先行注销验证码
+          //  if(!verifyresult.data.state){
+          //     alert("验证码输入错误，请重新输入")
+          //     return
+          //   }
             // console.log(verifyresult);
             
+
           //打开登入加载动画
           const loading = this.$loading({
             lock: true,
@@ -155,31 +158,34 @@ export default {
               loading.close();
               if (res.data.state) {
                 this.$message.success("登入成功");
+                //本地存储token
                 localStorage.setItem("wode", res.data.token);
+                //本地存储用户信息
                 localStorage.setItem(
                   "userInfo",
                   JSON.stringify(res.data.userInfo)
                 );
+                //本地存储按钮权限
+                localStorage.setItem(
+                  "permissionbuttons",
+                  JSON.stringify(res.data.permission.buttons)
+                );
                 //更改vuex中state的数据
                 this.SET_USERINFO(res.data.userInfo);
-                this.$router.push("/Welcome");
-                //  console.log(res.data.userInfo);
+                //将用户权限保存到vuex里面
+                this.SET_PERMISSION_BUTTON(res.data.permission.buttons)
+                 this.$router.push("/Welcome");
               } else {
                 this.$message.error("检查一下你的用户名和密码傻逼");
               }
             })
-            .catch(err => {
-              console.log(err);
-            });
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-
-    ...mapMutations(["SET_USERINFO"]),
-
+    ...mapMutations(["SET_USERINFO",'SET_PERMISSION_BUTTON']),
     login() {
       this.submitForm("ruleForm");
     }

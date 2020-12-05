@@ -14,5 +14,4 @@ const recursionRoutes = (allRoutes, menuList) => {
     })
     return userRoutes
 }
-
 export default recursionRoutes
